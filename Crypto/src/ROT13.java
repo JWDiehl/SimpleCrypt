@@ -12,9 +12,7 @@ public class ROT13 {
     }
 
     ROT13(Character cs, Character cf) {
-        if (!Character.isLetter(cs) || !Character.isLetter(cf)) {
-            throw new IllegalArgumentException("startChar and endChar must be letters");
-        }
+
     }
 
 //    private String cryptedShiftedAlphabet(Character cs, Character cf) {
@@ -38,9 +36,24 @@ public class ROT13 {
 //        return sb.toString();
 //    }
 
-    public String crypt(String text) throws UnsupportedOperationException {
+    public String crypt(String text) {
+        StringBuilder shift = new StringBuilder();
 
-        return rotate(text, 'A');
+        for (int i = 0; i < text.length(); i++) {
+            char shiftedChar = text.charAt(i);
+            if (shiftedChar >= 'a' && shiftedChar <= 'm') {
+                shiftedChar += 13;
+            } else if (shiftedChar >= 'A' && shiftedChar <= 'M') {
+                shiftedChar += 13;
+            } else if (shiftedChar >= 'n' && shiftedChar <= 'z') {
+                shiftedChar -= 13;
+            } else if (shiftedChar >= 'N' && shiftedChar <= 'Z') {
+                shiftedChar -= 13;
+            }
+            shift.append(shiftedChar);
+        }
+
+        return shift.toString();
     }
 
 //        StringBuilder result = new StringBuilder();
@@ -64,37 +77,42 @@ public class ROT13 {
         return crypt(text);
     }
 
-    public static String rotate(String s, Character startC) {
+    public static String rotate(String s, Character c) {
+        StringBuilder rotatedStirng = new StringBuilder();
 
-        StringBuilder result = new StringBuilder();
-        int shift = ALPHABET_UPPER.indexOf(Character.toUpperCase(startC));
-        if (shift == -1) {
-            throw new IllegalArgumentException("Invalid character to start. Must be a letter");
-        }
-        shift = shift % 26; // Shift within BOUNDs
+        String leftRotate = s.substring(s.indexOf(c));
+        String rightRotate = s.substring(0, s.indexOf(c));
 
-        for (char c : s.toCharArray()) {
-            if (Character.isUpperCase(c)) {
-                int idx = ALPHABET_UPPER.indexOf(c);
-                if (idx != -1) {
-                    char rotated = ALPHABET_UPPER.charAt((idx + shift) % 26);
-                    result.append(c);
-                } else {
-                    result.append(c);
-                }
-            } else if (Character.isLowerCase(c)) {
-                int idx = ALPHABET_LOWER.indexOf(c);
-                if (idx != -1) {
-                    char rotated = ALPHABET_UPPER.charAt((idx + shift) % 26);
+        rotatedStirng.append(leftRotate);
+        rotatedStirng.append(rightRotate);
 
-                    result.append(rotated);
-                } else {
-                    result.append(c);
-                }
-            }
+        return rotatedStirng.toString();
 
-        }
-        return result.toString();
-    }
-}
+//        StringBuilder shift = new StringBuilder();
+//        shift = shift % 26; // ensure shift is within bounds
+//
+//        for (char c : s.toCharArray()) {
+//            if (Character.isUpperCase(c)) {
+//                int idx = ALPHABET_UPPER.indexOf(c);
+//                if (idx != -1) {
+//                    char rotated = ALPHABET_UPPER.charAt((idx + shift) % 26);
+//                    result.append(rotated);
+//                } else {
+//                    result.append(c);
+//                }
+//            } else if (Character.isLowerCase(c)) {
+//                int idx = ALPHABET_LOWER.indexOf(c);
+//                if (idx != -1) {
+//                    char rotated = ALPHABET_UPPER.charAt((idx + shift) % 26);
+//
+//                    result.append(rotated);
+//                } else {
+//                    result.append(c);
+//                }
+//            }
+//
+//        }
+//        return result.toString();
+//    }
+} }
 
