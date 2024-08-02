@@ -2,10 +2,10 @@ import static java.lang.Character.isLowerCase;
 import static java.lang.Character.isUpperCase;
 import static java.lang.Character.toLowerCase;
 
-public class ROT13  {
+public class ROT13 {
 
     private static final String ALPHABET_UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    private static final String APLHABET_LOWER = "abcdefghijklmnopqrstuvwxyz";
+    private static final String ALPHABET_LOWER = "abcdefghijklmnopqrstuvwxyz";
 
     //Constructor for ROT13
     ROT13() {
@@ -64,9 +64,37 @@ public class ROT13  {
         return crypt(text);
     }
 
-    public static String rotate(String s, Character c) {
+    public static String rotate(String s, Character startC) {
 
+        StringBuilder result = new StringBuilder();
+        int shift = ALPHABET_UPPER.indexOf(Character.toUpperCase(startC));
+        if (shift == -1) {
+            throw new IllegalArgumentException("Invalid character to start. Must be a letter");
+        }
+        shift = shift % 26; // Shift within BOUNDs
 
+        for (char c : s.toCharArray()) {
+            if (Character.isUpperCase(c)) {
+                int idx = ALPHABET_UPPER.indexOf(c);
+                if (idx != -1) {
+                    char rotated = ALPHABET_UPPER.charAt((idx + shift) % 26);
+                    result.append(c);
+                } else {
+                    result.append(c);
+                }
+            } else if (Character.isLowerCase(c)) {
+                int idx = ALPHABET_LOWER.indexOf(c);
+                if (idx != -1) {
+                    char rotated = ALPHABET_UPPER.charAt((idx + shift) % 26);
+
+                    result.append(rotated);
+                } else {
+                    result.append(c);
+                }
+            }
+
+        }
+        return result.toString();
     }
-
 }
+
