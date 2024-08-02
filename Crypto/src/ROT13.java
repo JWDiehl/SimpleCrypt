@@ -4,6 +4,9 @@ import static java.lang.Character.toLowerCase;
 
 public class ROT13  {
 
+    String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+
     ROT13(Character cs, Character cf) {
     }
 
